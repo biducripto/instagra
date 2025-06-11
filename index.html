@@ -1,53 +1,126 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gerador com Ícones na Imagem</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <title>Gerador Profissional de Postagens Imobiliárias</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+
   <style>
-    body { font-family: 'Montserrat', sans-serif; padding: 2rem; background: #f2f2f2; }
-    .container { background: #fff; padding: 2rem; border-radius: 12px; max-width: 900px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h1 { text-align: center; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
-    input, textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; }
-    label { font-weight: 600; display: block; margin-bottom: 0.5rem; }
-    canvas { display: block; margin: 2rem auto; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
-    button { padding: 1rem 2rem; font-size: 1rem; background: #ff6b00; color: white; border: none; border-radius: 8px; margin: 10px; cursor: pointer; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f8f8f8;
+      padding: 2rem;
+    }
+
+    .container {
+      background: white;
+      max-width: 960px;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="file"],
+    input[type="range"],
+    textarea, select, input[type="color"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    canvas {
+      display: block;
+      margin: 2rem auto;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    button {
+      background: #ff6b00;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      margin: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e55a00;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Gerador de Postagem com Ícones na Imagem</h1>
+    <h1>Gerador Profissional de Postagens Imobiliárias</h1>
+
     <div class="form-grid">
-      <div><label for="titulo">Título</label><input type="text" id="titulo" /></div>
-      <div><label for="preco">Preço</label><input type="text" id="preco" /></div>
-      <div><label for="condominio">Condomínio</label><input type="text" id="condominio" /></div>
-      <div><label for="areaUtil">Área útil (m²)</label><input type="text" id="areaUtil" /></div>
-      <div><label for="areaTotal">Área total (m²)</label><input type="text" id="areaTotal" /></div>
-      <div><label for="quartos">Quartos</label><input type="number" id="quartos" /></div>
-      <div><label for="suites">Suítes</label><input type="number" id="suites" /></div>
-      <div><label for="banheiros">Banheiros</label><input type="number" id="banheiros" /></div>
-      <div><label for="vagas">Vagas</label><input type="number" id="vagas" /></div>
-      <div><label for="telefone">Telefone</label><input type="text" id="telefone" /></div>
-      <div><label for="instagram">Instagram</label><input type="text" id="instagram" /></div>
-      <div><label for="site">Site</label><input type="text" id="site" /></div>
-      <div><label for="urlImovel">Link p/ QR Code</label><input type="text" id="urlImovel" /></div>
-      <div><label for="imagemFundo">Imagem de Fundo</label><input type="file" id="imagemFundo" accept="image/*" /></div>
-      <div><label for="transparencia">Transparência</label><input type="range" id="transparencia" min="0" max="100" value="60"/></div>
+      <div><label for="titulo">Título</label><input type="text" id="titulo"></div>
+      <div><label for="preco">Preço</label><input type="text" id="preco"></div>
+      <div><label for="condominio">Condomínio</label><input type="text" id="condominio"></div>
+      <div><label for="areaUtil">Área útil (m²)</label><input type="text" id="areaUtil"></div>
+      <div><label for="areaTotal">Área total (m²)</label><input type="text" id="areaTotal"></div>
+      <div><label for="quartos">Quartos</label><input type="number" id="quartos"></div>
+      <div><label for="suites">Suítes</label><input type="number" id="suites"></div>
+      <div><label for="banheiros">Banheiros</label><input type="number" id="banheiros"></div>
+      <div><label for="vagas">Vagas</label><input type="number" id="vagas"></div>
+      <div><label for="telefone">Telefone</label><input type="text" id="telefone"></div>
+      <div><label for="instagram">Instagram</label><input type="text" id="instagram"></div>
+      <div><label for="site">Site</label><input type="text" id="site"></div>
+      <div><label for="urlImovel">Link p/ QR Code</label><input type="text" id="urlImovel"></div>
+      <div><label for="imagemFundo">Imagem de Fundo</label><input type="file" id="imagemFundo" accept="image/*"></div>
+      <div><label for="logo">Logotipo</label><input type="file" id="logo" accept="image/*"></div>
+      <div><label for="formato">Formato da Imagem</label>
+        <select id="formato">
+          <option value="1350x1080">Feed (1350x1080)</option>
+          <option value="1080x1920">Story (1080x1920)</option>
+        </select>
+      </div>
+      <div><label for="transparencia">Transparência</label><input type="range" id="transparencia" min="0" max="100" value="50"></div>
+      <div><label for="corBarra">Cor da Barra Inferior</label><input type="color" id="corBarra" value="#ff6b00"></div>
     </div>
-    <div style="text-align:center;">
+
+    <div style="text-align: center;">
       <button onclick="gerarPostagem()">Gerar Postagem</button>
       <button onclick="baixarImagem()">Baixar</button>
     </div>
-    <canvas id="canvas" width="1080" height="1080"></canvas>
+
+    <canvas id="canvas"></canvas>
   </div>
 
   <script>
     let imagemFundo = null;
+    let logo = null;
+
     document.getElementById('imagemFundo').addEventListener('change', e => {
       const reader = new FileReader();
       reader.onload = evt => {
@@ -58,40 +131,92 @@
       reader.readAsDataURL(e.target.files[0]);
     });
 
+    document.getElementById('logo').addEventListener('change', e => {
+      const reader = new FileReader();
+      reader.onload = evt => {
+        logo = new Image();
+        logo.onload = gerarPostagem;
+        logo.src = evt.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
+
     function gerarPostagem() {
+      const formato = document.getElementById('formato').value;
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
+
+      if (formato === '1350x1080') {
+        canvas.width = 1350;
+        canvas.height = 1080;
+      } else {
+        canvas.width = 1080;
+        canvas.height = 1920;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       if (imagemFundo) ctx.drawImage(imagemFundo, 0, 0, canvas.width, canvas.height);
-      let opacidade = parseInt(document.getElementById('transparencia').value) / 100;
+
+      const opacidade = parseInt(document.getElementById('transparencia').value) / 100;
       ctx.fillStyle = `rgba(0,0,0,${opacidade})`;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#fff';
-      ctx.font = 'bold 48px Montserrat';
-      ctx.fillText(document.getElementById('titulo').value, 60, 60);
-      ctx.font = '36px Montserrat';
-      ctx.fillText(document.getElementById('preco').value, 60, 120);
-      ctx.fillText(document.getElementById('condominio').value, 60, 180);
-      ctx.font = '28px Montserrat';
-      ctx.fillText('📐 ' + document.getElementById('areaUtil').value + ' m² útil', 60, 240);
-      ctx.fillText('📏 ' + document.getElementById('areaTotal').value + ' m² total', 360, 240);
-      ctx.fillText('🛏 ' + document.getElementById('quartos').value + ' quartos', 60, 290);
-      ctx.fillText('🛁 ' + document.getElementById('suites').value + ' suítes', 360, 290);
-      ctx.fillText('🚽 ' + document.getElementById('banheiros').value + ' banheiros', 60, 340);
-      ctx.fillText('🚗 ' + document.getElementById('vagas').value + ' vagas', 360, 340);
+      const corBarra = document.getElementById('corBarra').value;
+      ctx.fillStyle = corBarra;
+      ctx.fillRect(0, canvas.height - 200, canvas.width, 200);
 
-      ctx.fillText('📞 ' + document.getElementById('telefone').value, 60, canvas.height - 100);
-      ctx.fillText('🌐 ' + document.getElementById('site').value, 60, canvas.height - 60);
-      ctx.fillText('📸 @' + document.getElementById('instagram').value, 60, canvas.height - 20);
+      const titulo = document.getElementById('titulo').value;
+      const preco = document.getElementById('preco').value;
+      const condominio = document.getElementById('condominio').value;
+      const info = {
+        areaUtil: document.getElementById('areaUtil').value,
+        areaTotal: document.getElementById('areaTotal').value,
+        quartos: document.getElementById('quartos').value,
+        suites: document.getElementById('suites').value,
+        banheiros: document.getElementById('banheiros').value,
+        vagas: document.getElementById('vagas').value,
+        telefone: document.getElementById('telefone').value,
+        instagram: document.getElementById('instagram').value,
+        site: document.getElementById('site').value,
+      };
+
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 52px Montserrat";
+      ctx.fillText(titulo, 60, 100);
+      ctx.font = "bold 40px Montserrat";
+      ctx.fillText(preco, 60, 160);
+      ctx.font = "28px Montserrat";
+      ctx.fillText(condominio, 60, 210);
+
+      let y = 280;
+      ctx.font = "26px Montserrat";
+      ctx.fillText(`📐 Área útil: ${info.areaUtil} m²`, 60, y); y += 40;
+      ctx.fillText(`📏 Área total: ${info.areaTotal} m²`, 60, y); y += 40;
+      ctx.fillText(`🛏 Quartos: ${info.quartos}`, 60, y); y += 40;
+      ctx.fillText(`🛁 Suítes: ${info.suites}`, 60, y); y += 40;
+      ctx.fillText(`🚽 Banheiros: ${info.banheiros}`, 60, y); y += 40;
+      ctx.fillText(`🚗 Vagas: ${info.vagas}`, 60, y); y += 40;
+
+      ctx.fillText(`📞 ${info.telefone}`, 60, canvas.height - 140);
+      ctx.fillText(`📸 @${info.instagram}`, 60, canvas.height - 100);
+      ctx.fillText(`🌐 ${info.site}`, 60, canvas.height - 60);
 
       const qrUrl = document.getElementById('urlImovel').value;
       if (qrUrl) {
-        QRCode.toDataURL(qrUrl, { width: 100 }, function (err, url) {
+        QRCode.toDataURL(qrUrl, { width: 100 }, (err, url) => {
           const qrImg = new Image();
-          qrImg.onload = () => ctx.drawImage(qrImg, canvas.width - 160, 60, 100, 100);
+          qrImg.onload = () => {
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(canvas.width - 180, 40, 120, 120);
+            ctx.drawImage(qrImg, canvas.width - 170, 50, 100, 100);
+          };
           qrImg.src = url;
         });
+      }
+
+      if (logo) {
+        ctx.drawImage(logo, canvas.width - 300, canvas.height - 300, 200, 100);
       }
     }
 
