@@ -1,192 +1,107 @@
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Gerador de Postagem Imobiliária</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerador com Ícones na Imagem</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #eef1f5;
-      padding: 20px;
-    }
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-    label { display: block; margin-top: 10px; font-weight: bold; }
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    canvas {
-      display: block;
-      margin: 20px auto;
-      border: 2px dashed #ccc;
-      background: #fff;
-    }
+    body { font-family: 'Montserrat', sans-serif; padding: 2rem; background: #f2f2f2; }
+    .container { background: #fff; padding: 2rem; border-radius: 12px; max-width: 900px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+    input, textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; }
+    label { font-weight: 600; display: block; margin-bottom: 0.5rem; }
+    canvas { display: block; margin: 2rem auto; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+    button { padding: 1rem 2rem; font-size: 1rem; background: #ff6b00; color: white; border: none; border-radius: 8px; margin: 10px; cursor: pointer; }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>Gerador de Postagem Imobiliária</h1>
+  <div class="container">
+    <h1>Gerador de Postagem com Ícones na Imagem</h1>
+    <div class="form-grid">
+      <div><label for="titulo">Título</label><input type="text" id="titulo" /></div>
+      <div><label for="preco">Preço</label><input type="text" id="preco" /></div>
+      <div><label for="condominio">Condomínio</label><input type="text" id="condominio" /></div>
+      <div><label for="areaUtil">Área útil (m²)</label><input type="text" id="areaUtil" /></div>
+      <div><label for="areaTotal">Área total (m²)</label><input type="text" id="areaTotal" /></div>
+      <div><label for="quartos">Quartos</label><input type="number" id="quartos" /></div>
+      <div><label for="suites">Suítes</label><input type="number" id="suites" /></div>
+      <div><label for="banheiros">Banheiros</label><input type="number" id="banheiros" /></div>
+      <div><label for="vagas">Vagas</label><input type="number" id="vagas" /></div>
+      <div><label for="telefone">Telefone</label><input type="text" id="telefone" /></div>
+      <div><label for="instagram">Instagram</label><input type="text" id="instagram" /></div>
+      <div><label for="site">Site</label><input type="text" id="site" /></div>
+      <div><label for="urlImovel">Link p/ QR Code</label><input type="text" id="urlImovel" /></div>
+      <div><label for="imagemFundo">Imagem de Fundo</label><input type="file" id="imagemFundo" accept="image/*" /></div>
+      <div><label for="transparencia">Transparência</label><input type="range" id="transparencia" min="0" max="100" value="60"/></div>
+    </div>
+    <div style="text-align:center;">
+      <button onclick="gerarPostagem()">Gerar Postagem</button>
+      <button onclick="baixarImagem()">Baixar</button>
+    </div>
+    <canvas id="canvas" width="1080" height="1080"></canvas>
+  </div>
 
-  <label>Importar dados (.json)</label>
-  <input type="file" id="jsonInput" accept=".json">
+  <script>
+    let imagemFundo = null;
+    document.getElementById('imagemFundo').addEventListener('change', e => {
+      const reader = new FileReader();
+      reader.onload = evt => {
+        imagemFundo = new Image();
+        imagemFundo.onload = gerarPostagem;
+        imagemFundo.src = evt.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
 
-  <label>Imagem de Fundo</label>
-  <input type="file" id="imagemFundo" accept="image/*">
+    function gerarPostagem() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (imagemFundo) ctx.drawImage(imagemFundo, 0, 0, canvas.width, canvas.height);
+      let opacidade = parseInt(document.getElementById('transparencia').value) / 100;
+      ctx.fillStyle = `rgba(0,0,0,${opacidade})`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  <label>Logo</label>
-  <input type="file" id="logo" accept="image/*">
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 48px Montserrat';
+      ctx.fillText(document.getElementById('titulo').value, 60, 60);
+      ctx.font = '36px Montserrat';
+      ctx.fillText(document.getElementById('preco').value, 60, 120);
+      ctx.fillText(document.getElementById('condominio').value, 60, 180);
+      ctx.font = '28px Montserrat';
+      ctx.fillText('📐 ' + document.getElementById('areaUtil').value + ' m² útil', 60, 240);
+      ctx.fillText('📏 ' + document.getElementById('areaTotal').value + ' m² total', 360, 240);
+      ctx.fillText('🛏 ' + document.getElementById('quartos').value + ' quartos', 60, 290);
+      ctx.fillText('🛁 ' + document.getElementById('suites').value + ' suítes', 360, 290);
+      ctx.fillText('🚽 ' + document.getElementById('banheiros').value + ' banheiros', 60, 340);
+      ctx.fillText('🚗 ' + document.getElementById('vagas').value + ' vagas', 360, 340);
 
-  <label>Título</label>
-  <input type="text" id="titulo">
+      ctx.fillText('📞 ' + document.getElementById('telefone').value, 60, canvas.height - 100);
+      ctx.fillText('🌐 ' + document.getElementById('site').value, 60, canvas.height - 60);
+      ctx.fillText('📸 @' + document.getElementById('instagram').value, 60, canvas.height - 20);
 
-  <label>Preço</label>
-  <input type="text" id="preco">
+      const qrUrl = document.getElementById('urlImovel').value;
+      if (qrUrl) {
+        QRCode.toDataURL(qrUrl, { width: 100 }, function (err, url) {
+          const qrImg = new Image();
+          qrImg.onload = () => ctx.drawImage(qrImg, canvas.width - 160, 60, 100, 100);
+          qrImg.src = url;
+        });
+      }
+    }
 
-  <label>Condomínio</label>
-  <input type="text" id="condominio">
-
-  <label>Dormitórios</label>
-  <input type="number" id="dormitorios">
-
-  <label>Banheiros</label>
-  <input type="number" id="banheiros">
-
-  <label>Metragem</label>
-  <input type="text" id="metragem">
-
-  <label>Vagas</label>
-  <input type="number" id="vagas">
-
-  <label>Características</label>
-  <textarea id="caracteristicas" rows="4"></textarea>
-
-  <label>Telefone</label>
-  <input type="text" id="telefone">
-
-  <label>Site</label>
-  <input type="text" id="site">
-
-  <label>Instagram</label>
-  <input type="text" id="instagram">
-
-  <label>Cor do Texto</label>
-  <input type="color" id="corTexto" value="#ffffff">
-
-  <label>Cor da Sobreposição</label>
-  <input type="color" id="corOverlay" value="#000000">
-
-  <label>Opacidade da Sobreposição (%)</label>
-  <input type="range" id="overlayOpacidade" min="0" max="100" value="80">
-
-  <button onclick="gerarPostagem()">Gerar</button>
-  <canvas id="canvas" width="1080" height="1080"></canvas>
-  <button onclick="baixarImagem()">Baixar Imagem</button>
-</div>
-
-<script>
-  let imagemFundo = null;
-  let logoMarca = null;
-
-  document.getElementById('imagemFundo').addEventListener('change', e => {
-    const reader = new FileReader();
-    reader.onload = evt => {
-      imagemFundo = new Image();
-      imagemFundo.onload = gerarPostagem;
-      imagemFundo.src = evt.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  });
-
-  document.getElementById('logo').addEventListener('change', e => {
-    const reader = new FileReader();
-    reader.onload = evt => {
-      logoMarca = new Image();
-      logoMarca.src = evt.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  });
-
-  document.getElementById('jsonInput').addEventListener('change', e => {
-    const reader = new FileReader();
-    reader.onload = evt => {
-      const data = JSON.parse(evt.target.result);
-      document.getElementById('titulo').value = data.titulo || '';
-      document.getElementById('preco').value = data.valor || '';
-      document.getElementById('condominio').value = data.condominio || '';
-      document.getElementById('dormitorios').value = data.dormitorios || '';
-      document.getElementById('banheiros').value = data.banheiros || '';
-      document.getElementById('metragem').value = data.area_util || '';
-      document.getElementById('vagas').value = data.vagas || '';
-      document.getElementById('telefone').value = data.telefone || '';
-      document.getElementById('site').value = data.site || '';
-      document.getElementById('instagram').value = data.instagram || '';
-      document.getElementById('caracteristicas').value = (data.caracteristicas || []).join('\n');
-      gerarPostagem();
-    };
-    reader.readAsText(e.target.files[0]);
-  });
-
-  function gerarPostagem() {
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-
-    const corOverlay = document.getElementById('corOverlay').value;
-    const opacidade = parseInt(document.getElementById('overlayOpacidade').value) / 100;
-    const corTexto = document.getElementById('corTexto').value;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    if (imagemFundo) ctx.drawImage(imagemFundo, 0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = hexToRgba(corOverlay, opacidade);
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = corTexto;
-    ctx.font = 'bold 48px Segoe UI';
-    ctx.fillText(document.getElementById('titulo').value, 40, 100);
-
-    ctx.font = 'bold 40px Segoe UI';
-    ctx.fillText(document.getElementById('preco').value, 40, 160);
-    ctx.fillText(document.getElementById('condominio').value, 40, 210);
-
-    ctx.font = '32px Segoe UI';
-    ctx.fillText(`🛏 ${document.getElementById('dormitorios').value}  🛁 ${document.getElementById('banheiros').value}  📐 ${document.getElementById('metragem').value}  🚗 ${document.getElementById('vagas').value}`, 40, 260);
-
-    ctx.font = '26px Segoe UI';
-    const lista = document.getElementById('caracteristicas').value.split('\n');
-    lista.forEach((item, i) => ctx.fillText('• ' + item, 40, 310 + i * 34));
-
-    ctx.font = '22px Segoe UI';
-    ctx.fillText(`📞 ${document.getElementById('telefone').value}   🌐 ${document.getElementById('site').value}   📸 ${document.getElementById('instagram').value}`, 40, canvas.height - 40);
-
-    if (logoMarca) ctx.drawImage(logoMarca, canvas.width - 200, 40, 160, 80);
-  }
-
-  function hexToRgba(hex, alpha) {
-    const r = parseInt(hex.substr(1, 2), 16);
-    const g = parseInt(hex.substr(3, 2), 16);
-    const b = parseInt(hex.substr(5, 2), 16);
-    return `rgba(${r},${g},${b},${alpha})`;
-  }
-
-  function baixarImagem() {
-    const canvas = document.getElementById('canvas');
-    const link = document.createElement('a');
-    link.download = 'postagem.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  }
-</script>
+    function baixarImagem() {
+      const canvas = document.getElementById('canvas');
+      const link = document.createElement('a');
+      link.download = 'postagem_gerada.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+  </script>
 </body>
 </html>
