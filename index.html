@@ -28,13 +28,28 @@
     h1 {
       text-align: center;
       font-weight: 700;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    fieldset {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    legend {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      padding: 0 0.5rem;
     }
 
     label {
@@ -83,36 +98,48 @@
   <div class="container">
     <h1>Gerador Profissional de Postagens Imobiliárias</h1>
 
-    <div class="form-grid">
-      <div><label for="titulo">Título</label><input type="text" id="titulo"></div>
-      <div><label for="preco">Preço</label><input type="text" id="preco"></div>
-      <div><label for="condominio">Condomínio</label><input type="text" id="condominio"></div>
-      <div><label for="areaUtil">Área útil (m²)</label><input type="text" id="areaUtil"></div>
-      <div><label for="areaTotal">Área total (m²)</label><input type="text" id="areaTotal"></div>
-      <div><label for="quartos">Quartos</label><input type="number" id="quartos"></div>
-      <div><label for="suites">Suítes</label><input type="number" id="suites"></div>
-      <div><label for="banheiros">Banheiros</label><input type="number" id="banheiros"></div>
-      <div><label for="vagas">Vagas</label><input type="number" id="vagas"></div>
-      <div><label for="telefone">Telefone</label><input type="text" id="telefone"></div>
-      <div><label for="instagram">Instagram</label><input type="text" id="instagram"></div>
-      <div><label for="site">Site</label><input type="text" id="site"></div>
-      <div><label for="urlImovel">Link p/ QR Code</label><input type="text" id="urlImovel"></div>
-      <div>
-        <label for="midia">Imagem ou Vídeo de Fundo</label>
-        <input type="file" id="midia" accept="image/*,video/*">
+    <fieldset>
+      <legend>Detalhes do Imóvel</legend>
+      <div class="form-grid">
+        <div><label for="titulo">Título</label><input type="text" id="titulo"></div>
+        <div><label for="preco">Preço</label><input type="text" id="preco"></div>
+        <div><label for="condominio">Condomínio</label><input type="text" id="condominio"></div>
+        <div><label for="areaUtil">Área útil (m²)</label><input type="text" id="areaUtil"></div>
+        <div><label for="areaTotal">Área total (m²)</label><input type="text" id="areaTotal"></div>
+        <div><label for="quartos">Quartos</label><input type="number" id="quartos"></div>
+        <div><label for="suites">Suítes</label><input type="number" id="suites"></div>
+        <div><label for="banheiros">Banheiros</label><input type="number" id="banheiros"></div>
+        <div><label for="vagas">Vagas</label><input type="number" id="vagas"></div>
       </div>
-      <div><label for="logo">Logotipo</label><input type="file" id="logo" accept="image/*"></div>
-      <div><label for="formato">Formato da Imagem</label>
-        <select id="formato">
-          <option value="1350x1080">Feed (1350x1080)</option>
-          <option value="1080x1920">Story (1080x1920)</option>
-        </select>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contato e Redes</legend>
+      <div class="form-grid">
+        <div><label for="telefone">Telefone</label><input type="text" id="telefone"></div>
+        <div><label for="instagram">Instagram</label><input type="text" id="instagram"></div>
+        <div><label for="site">Site</label><input type="text" id="site"></div>
+        <div><label for="urlImovel">Link p/ QR Code</label><input type="text" id="urlImovel"></div>
       </div>
-      <div><label for="transparencia">Transparência</label><input type="range" id="transparencia" min="0" max="100" value="50"></div>
-      <div><label for="corBarra">Cor da Barra Inferior</label><input type="color" id="corBarra" value="#ff6b00"></div>
-      <div><label for="fontTitulo">Tamanho da fonte do Título</label><input type="range" id="fontTitulo" min="20" max="100" value="52"></div>
-      <div><label for="fontInfo">Tamanho da fonte das Informações</label><input type="range" id="fontInfo" min="16" max="50" value="26"></div>
-    </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Estilo da Postagem</legend>
+      <div class="form-grid">
+        <div><label for="midia">Imagem ou Vídeo de Fundo</label><input type="file" id="midia" accept="image/*,video/*"></div>
+        <div><label for="logo">Logotipo</label><input type="file" id="logo" accept="image/*"></div>
+        <div><label for="formato">Formato da Imagem</label>
+          <select id="formato">
+            <option value="1350x1080">Feed (1350x1080)</option>
+            <option value="1080x1920">Story (1080x1920)</option>
+          </select>
+        </div>
+        <div><label for="transparencia">Transparência</label><input type="range" id="transparencia" min="0" max="100" value="50"></div>
+        <div><label for="corBarra">Cor da Barra Inferior</label><input type="color" id="corBarra" value="#ff6b00"></div>
+        <div><label for="fontTitulo">Tamanho da fonte do Título</label><input type="range" id="fontTitulo" min="20" max="100" value="52"></div>
+        <div><label for="fontInfo">Tamanho da fonte das Informações</label><input type="range" id="fontInfo" min="16" max="50" value="26"></div>
+      </div>
+    </fieldset>
 
     <canvas id="canvas"></canvas>
 
@@ -122,131 +149,131 @@
     </div>
 
     <video id="videoThumb" style="display:none;"></video>
+  </div>
 
-    <script>
-      let imagemFundo = null;
-      let logo = null;
+  <script>
+    let imagemFundo = null;
+    let logo = null;
+    let videoElement = document.getElementById('videoThumb');
 
-      document.getElementById('midia').addEventListener('change', e => {
-        const file = e.target.files[0];
-        if (!file) return;
+    document.getElementById('midia').addEventListener('change', e => {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
 
-        if (file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = evt => {
-            imagemFundo = new Image();
-            imagemFundo.onload = gerarPostagem;
-            imagemFundo.src = evt.target.result;
+      if (file.type.startsWith('image/')) {
+        imagemFundo = new Image();
+        imagemFundo.onload = gerarPostagem;
+        imagemFundo.src = url;
+      } else if (file.type.startsWith('video/')) {
+        videoElement.src = url;
+        videoElement.currentTime = 1;
+        videoElement.onloadeddata = () => {
+          const canvasVideo = document.createElement('canvas');
+          canvasVideo.width = videoElement.videoWidth;
+          canvasVideo.height = videoElement.videoHeight;
+          const ctxVid = canvasVideo.getContext('2d');
+          ctxVid.drawImage(videoElement, 0, 0);
+          imagemFundo = new Image();
+          imagemFundo.onload = gerarPostagem;
+          imagemFundo.src = canvasVideo.toDataURL();
+        };
+      }
+    });
+
+    document.getElementById('logo').addEventListener('change', e => {
+      const reader = new FileReader();
+      reader.onload = evt => {
+        logo = new Image();
+        logo.onload = gerarPostagem;
+        logo.src = evt.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
+
+    function gerarPostagem() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const formato = document.getElementById('formato').value;
+
+      const fontTitulo = parseInt(document.getElementById('fontTitulo').value);
+      const fontInfo = parseInt(document.getElementById('fontInfo').value);
+
+      canvas.width = formato === '1350x1080' ? 1350 : 1080;
+      canvas.height = formato === '1350x1080' ? 1080 : 1920;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (imagemFundo) ctx.drawImage(imagemFundo, 0, 0, canvas.width, canvas.height);
+
+      const opacidade = parseInt(document.getElementById('transparencia').value) / 100;
+      ctx.fillStyle = `rgba(0,0,0,${opacidade})`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const corBarra = document.getElementById('corBarra').value;
+      ctx.fillStyle = corBarra;
+      ctx.fillRect(0, canvas.height - 200, canvas.width, 200);
+
+      const titulo = document.getElementById('titulo').value;
+      const preco = document.getElementById('preco').value;
+      const condominio = document.getElementById('condominio').value;
+      const info = {
+        areaUtil: document.getElementById('areaUtil').value,
+        areaTotal: document.getElementById('areaTotal').value,
+        quartos: document.getElementById('quartos').value,
+        suites: document.getElementById('suites').value,
+        banheiros: document.getElementById('banheiros').value,
+        vagas: document.getElementById('vagas').value,
+        telefone: document.getElementById('telefone').value,
+        instagram: document.getElementById('instagram').value,
+        site: document.getElementById('site').value,
+      };
+
+      ctx.fillStyle = "#fff";
+      ctx.font = `bold ${fontTitulo}px Montserrat`;
+      ctx.fillText(titulo, 60, 100);
+      ctx.font = `bold ${Math.floor(fontTitulo * 0.8)}px Montserrat`;
+      ctx.fillText(preco, 60, 100 + fontTitulo);
+      ctx.font = `${fontInfo}px Montserrat`;
+      ctx.fillText(condominio, 60, 100 + fontTitulo + 50);
+
+      let y = 100 + fontTitulo + 100;
+      ctx.font = `${fontInfo}px Montserrat`;
+      ctx.fillText(`Área útil: ${info.areaUtil} m²`, 60, y); y += fontInfo + 10;
+      ctx.fillText(`Área total: ${info.areaTotal} m²`, 60, y); y += fontInfo + 10;
+      ctx.fillText(`Quartos: ${info.quartos}`, 60, y); y += fontInfo + 10;
+      ctx.fillText(`Suítes: ${info.suites}`, 60, y); y += fontInfo + 10;
+      ctx.fillText(`Banheiros: ${info.banheiros}`, 60, y); y += fontInfo + 10;
+      ctx.fillText(`Vagas: ${info.vagas}`, 60, y); y += fontInfo + 10;
+
+      ctx.fillText(`📞 ${info.telefone}`, 60, canvas.height - 140);
+      ctx.fillText(`📸 @${info.instagram}`, 60, canvas.height - 100);
+      ctx.fillText(`🌐 ${info.site}`, 60, canvas.height - 60);
+
+      const qrUrl = document.getElementById('urlImovel').value;
+      if (qrUrl) {
+        QRCode.toDataURL(qrUrl, { width: 100 }, (err, url) => {
+          const qrImg = new Image();
+          qrImg.onload = () => {
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(canvas.width - 180, 40, 120, 120);
+            ctx.drawImage(qrImg, canvas.width - 170, 50, 100, 100);
           };
-          reader.readAsDataURL(file);
-        } else if (file.type.startsWith('video/')) {
-          const video = document.getElementById('videoThumb');
-          video.src = URL.createObjectURL(file);
-          video.currentTime = 1;
-          video.addEventListener('loadeddata', () => {
-            const canvasVideo = document.createElement('canvas');
-            canvasVideo.width = video.videoWidth;
-            canvasVideo.height = video.videoHeight;
-            const ctxVideo = canvasVideo.getContext('2d');
-            ctxVideo.drawImage(video, 0, 0, canvasVideo.width, canvasVideo.height);
-            imagemFundo = new Image();
-            imagemFundo.onload = gerarPostagem;
-            imagemFundo.src = canvasVideo.toDataURL();
-          }, { once: true });
-        }
-      });
-
-      document.getElementById('logo').addEventListener('change', e => {
-        const reader = new FileReader();
-        reader.onload = evt => {
-          logo = new Image();
-          logo.onload = gerarPostagem;
-          logo.src = evt.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
-      });
-
-      function gerarPostagem() {
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const formato = document.getElementById('formato').value;
-
-        canvas.width = formato === '1350x1080' ? 1350 : 1080;
-        canvas.height = formato === '1350x1080' ? 1080 : 1920;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (imagemFundo) ctx.drawImage(imagemFundo, 0, 0, canvas.width, canvas.height);
-
-        const opacidade = parseInt(document.getElementById('transparencia').value) / 100;
-        ctx.fillStyle = `rgba(0,0,0,${opacidade})`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        const corBarra = document.getElementById('corBarra').value;
-        ctx.fillStyle = corBarra;
-        ctx.fillRect(0, canvas.height - 200, canvas.width, 200);
-
-        const titulo = document.getElementById('titulo').value;
-        const preco = document.getElementById('preco').value;
-        const condominio = document.getElementById('condominio').value;
-        const fontTitulo = document.getElementById('fontTitulo').value;
-        const fontInfo = document.getElementById('fontInfo').value;
-
-        const info = {
-          areaUtil: document.getElementById('areaUtil').value,
-          areaTotal: document.getElementById('areaTotal').value,
-          quartos: document.getElementById('quartos').value,
-          suites: document.getElementById('suites').value,
-          banheiros: document.getElementById('banheiros').value,
-          vagas: document.getElementById('vagas').value,
-          telefone: document.getElementById('telefone').value,
-          instagram: document.getElementById('instagram').value,
-          site: document.getElementById('site').value
-        };
-
-        ctx.fillStyle = "#fff";
-        ctx.font = `bold ${fontTitulo}px Montserrat`;
-        ctx.fillText(titulo, 60, 100);
-        ctx.font = `bold ${fontInfo}px Montserrat`;
-        ctx.fillText(preco, 60, 160);
-        ctx.fillText(condominio, 60, 210);
-
-        let y = 280;
-        ctx.fillText(`📐 Área útil: ${info.areaUtil} m²`, 60, y); y += 40;
-        ctx.fillText(`📏 Área total: ${info.areaTotal} m²`, 60, y); y += 40;
-        ctx.fillText(`🛏 Quartos: ${info.quartos}`, 60, y); y += 40;
-        ctx.fillText(`🛁 Suítes: ${info.suites}`, 60, y); y += 40;
-        ctx.fillText(`🚽 Banheiros: ${info.banheiros}`, 60, y); y += 40;
-        ctx.fillText(`🚗 Vagas: ${info.vagas}`, 60, y); y += 40;
-
-        ctx.fillText(`📞 ${info.telefone}`, 60, canvas.height - 140);
-        ctx.fillText(`📸 @${info.instagram}`, 60, canvas.height - 100);
-        ctx.fillText(`🌐 ${info.site}`, 60, canvas.height - 60);
-
-        const qrUrl = document.getElementById('urlImovel').value;
-        if (qrUrl) {
-          QRCode.toDataURL(qrUrl, { width: 100 }, (err, url) => {
-            const qrImg = new Image();
-            qrImg.onload = () => {
-              ctx.fillStyle = "#fff";
-              ctx.fillRect(canvas.width - 180, 40, 120, 120);
-              ctx.drawImage(qrImg, canvas.width - 170, 50, 100, 100);
-            };
-            qrImg.src = url;
-          });
-        }
-
-        if (logo) {
-          ctx.drawImage(logo, canvas.width - 300, canvas.height - 300, 200, 100);
-        }
+          qrImg.src = url;
+        });
       }
 
-      function baixarImagem() {
-        const canvas = document.getElementById('canvas');
-        const link = document.createElement('a');
-        link.download = 'postagem_gerada.png';
-        link.href = canvas.toDataURL();
-        link.click();
+      if (logo) {
+        ctx.drawImage(logo, canvas.width - 300, canvas.height - 300, 200, 100);
       }
-    </script>
+    }
+
+    function baixarImagem() {
+      const canvas = document.getElementById('canvas');
+      const link = document.createElement('a');
+      link.download = 'postagem_gerada.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+  </script>
 </body>
 </html>
