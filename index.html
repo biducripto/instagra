@@ -97,7 +97,10 @@
       <div><label for="instagram">Instagram</label><input type="text" id="instagram"></div>
       <div><label for="site">Site</label><input type="text" id="site"></div>
       <div><label for="urlImovel">Link p/ QR Code</label><input type="text" id="urlImovel"></div>
-      <div><label for="imagemFundo">Imagem de Fundo</label><input type="file" id="imagemFundo" accept="image/*"></div>
+      <div>
+        <label for="midia">Imagem ou Vídeo de Fundo</label>
+        <input type="file" id="midia" accept="image/*,video/*">
+      </div>
       <div><label for="logo">Logotipo</label><input type="file" id="logo" accept="image/*"></div>
       <div><label for="formato">Formato da Imagem</label>
         <select id="formato">
@@ -107,126 +110,143 @@
       </div>
       <div><label for="transparencia">Transparência</label><input type="range" id="transparencia" min="0" max="100" value="50"></div>
       <div><label for="corBarra">Cor da Barra Inferior</label><input type="color" id="corBarra" value="#ff6b00"></div>
+      <div><label for="fontTitulo">Tamanho da fonte do Título</label><input type="range" id="fontTitulo" min="20" max="100" value="52"></div>
+      <div><label for="fontInfo">Tamanho da fonte das Informações</label><input type="range" id="fontInfo" min="16" max="50" value="26"></div>
     </div>
+
+    <canvas id="canvas"></canvas>
 
     <div style="text-align: center;">
       <button onclick="gerarPostagem()">Gerar Postagem</button>
       <button onclick="baixarImagem()">Baixar</button>
     </div>
 
-    <canvas id="canvas"></canvas>
-  </div>
+    <video id="videoThumb" style="display:none;"></video>
 
-  <script>
-    let imagemFundo = null;
-    let logo = null;
+    <script>
+      let imagemFundo = null;
+      let logo = null;
 
-    document.getElementById('imagemFundo').addEventListener('change', e => {
-      const reader = new FileReader();
-      reader.onload = evt => {
-        imagemFundo = new Image();
-        imagemFundo.onload = gerarPostagem;
-        imagemFundo.src = evt.target.result;
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    });
+      document.getElementById('midia').addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-    document.getElementById('logo').addEventListener('change', e => {
-      const reader = new FileReader();
-      reader.onload = evt => {
-        logo = new Image();
-        logo.onload = gerarPostagem;
-        logo.src = evt.target.result;
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    });
-
-    function gerarPostagem() {
-      const formato = document.getElementById('formato').value;
-      const canvas = document.getElementById('canvas');
-      const ctx = canvas.getContext('2d');
-
-      if (formato === '1350x1080') {
-        canvas.width = 1350;
-        canvas.height = 1080;
-      } else {
-        canvas.width = 1080;
-        canvas.height = 1920;
-      }
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      if (imagemFundo) ctx.drawImage(imagemFundo, 0, 0, canvas.width, canvas.height);
-
-      const opacidade = parseInt(document.getElementById('transparencia').value) / 100;
-      ctx.fillStyle = `rgba(0,0,0,${opacidade})`;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      const corBarra = document.getElementById('corBarra').value;
-      ctx.fillStyle = corBarra;
-      ctx.fillRect(0, canvas.height - 200, canvas.width, 200);
-
-      const titulo = document.getElementById('titulo').value;
-      const preco = document.getElementById('preco').value;
-      const condominio = document.getElementById('condominio').value;
-      const info = {
-        areaUtil: document.getElementById('areaUtil').value,
-        areaTotal: document.getElementById('areaTotal').value,
-        quartos: document.getElementById('quartos').value,
-        suites: document.getElementById('suites').value,
-        banheiros: document.getElementById('banheiros').value,
-        vagas: document.getElementById('vagas').value,
-        telefone: document.getElementById('telefone').value,
-        instagram: document.getElementById('instagram').value,
-        site: document.getElementById('site').value,
-      };
-
-      ctx.fillStyle = "#fff";
-      ctx.font = "bold 52px Montserrat";
-      ctx.fillText(titulo, 60, 100);
-      ctx.font = "bold 40px Montserrat";
-      ctx.fillText(preco, 60, 160);
-      ctx.font = "28px Montserrat";
-      ctx.fillText(condominio, 60, 210);
-
-      let y = 280;
-      ctx.font = "26px Montserrat";
-      ctx.fillText(`📐 Área útil: ${info.areaUtil} m²`, 60, y); y += 40;
-      ctx.fillText(`📏 Área total: ${info.areaTotal} m²`, 60, y); y += 40;
-      ctx.fillText(`🛏 Quartos: ${info.quartos}`, 60, y); y += 40;
-      ctx.fillText(`🛁 Suítes: ${info.suites}`, 60, y); y += 40;
-      ctx.fillText(`🚽 Banheiros: ${info.banheiros}`, 60, y); y += 40;
-      ctx.fillText(`🚗 Vagas: ${info.vagas}`, 60, y); y += 40;
-
-      ctx.fillText(`📞 ${info.telefone}`, 60, canvas.height - 140);
-      ctx.fillText(`📸 @${info.instagram}`, 60, canvas.height - 100);
-      ctx.fillText(`🌐 ${info.site}`, 60, canvas.height - 60);
-
-      const qrUrl = document.getElementById('urlImovel').value;
-      if (qrUrl) {
-        QRCode.toDataURL(qrUrl, { width: 100 }, (err, url) => {
-          const qrImg = new Image();
-          qrImg.onload = () => {
-            ctx.fillStyle = "#fff";
-            ctx.fillRect(canvas.width - 180, 40, 120, 120);
-            ctx.drawImage(qrImg, canvas.width - 170, 50, 100, 100);
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = evt => {
+            imagemFundo = new Image();
+            imagemFundo.onload = gerarPostagem;
+            imagemFundo.src = evt.target.result;
           };
-          qrImg.src = url;
-        });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          const video = document.getElementById('videoThumb');
+          video.src = URL.createObjectURL(file);
+          video.currentTime = 1;
+          video.addEventListener('loadeddata', () => {
+            const canvasVideo = document.createElement('canvas');
+            canvasVideo.width = video.videoWidth;
+            canvasVideo.height = video.videoHeight;
+            const ctxVideo = canvasVideo.getContext('2d');
+            ctxVideo.drawImage(video, 0, 0, canvasVideo.width, canvasVideo.height);
+            imagemFundo = new Image();
+            imagemFundo.onload = gerarPostagem;
+            imagemFundo.src = canvasVideo.toDataURL();
+          }, { once: true });
+        }
+      });
+
+      document.getElementById('logo').addEventListener('change', e => {
+        const reader = new FileReader();
+        reader.onload = evt => {
+          logo = new Image();
+          logo.onload = gerarPostagem;
+          logo.src = evt.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      });
+
+      function gerarPostagem() {
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const formato = document.getElementById('formato').value;
+
+        canvas.width = formato === '1350x1080' ? 1350 : 1080;
+        canvas.height = formato === '1350x1080' ? 1080 : 1920;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (imagemFundo) ctx.drawImage(imagemFundo, 0, 0, canvas.width, canvas.height);
+
+        const opacidade = parseInt(document.getElementById('transparencia').value) / 100;
+        ctx.fillStyle = `rgba(0,0,0,${opacidade})`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const corBarra = document.getElementById('corBarra').value;
+        ctx.fillStyle = corBarra;
+        ctx.fillRect(0, canvas.height - 200, canvas.width, 200);
+
+        const titulo = document.getElementById('titulo').value;
+        const preco = document.getElementById('preco').value;
+        const condominio = document.getElementById('condominio').value;
+        const fontTitulo = document.getElementById('fontTitulo').value;
+        const fontInfo = document.getElementById('fontInfo').value;
+
+        const info = {
+          areaUtil: document.getElementById('areaUtil').value,
+          areaTotal: document.getElementById('areaTotal').value,
+          quartos: document.getElementById('quartos').value,
+          suites: document.getElementById('suites').value,
+          banheiros: document.getElementById('banheiros').value,
+          vagas: document.getElementById('vagas').value,
+          telefone: document.getElementById('telefone').value,
+          instagram: document.getElementById('instagram').value,
+          site: document.getElementById('site').value
+        };
+
+        ctx.fillStyle = "#fff";
+        ctx.font = `bold ${fontTitulo}px Montserrat`;
+        ctx.fillText(titulo, 60, 100);
+        ctx.font = `bold ${fontInfo}px Montserrat`;
+        ctx.fillText(preco, 60, 160);
+        ctx.fillText(condominio, 60, 210);
+
+        let y = 280;
+        ctx.fillText(`📐 Área útil: ${info.areaUtil} m²`, 60, y); y += 40;
+        ctx.fillText(`📏 Área total: ${info.areaTotal} m²`, 60, y); y += 40;
+        ctx.fillText(`🛏 Quartos: ${info.quartos}`, 60, y); y += 40;
+        ctx.fillText(`🛁 Suítes: ${info.suites}`, 60, y); y += 40;
+        ctx.fillText(`🚽 Banheiros: ${info.banheiros}`, 60, y); y += 40;
+        ctx.fillText(`🚗 Vagas: ${info.vagas}`, 60, y); y += 40;
+
+        ctx.fillText(`📞 ${info.telefone}`, 60, canvas.height - 140);
+        ctx.fillText(`📸 @${info.instagram}`, 60, canvas.height - 100);
+        ctx.fillText(`🌐 ${info.site}`, 60, canvas.height - 60);
+
+        const qrUrl = document.getElementById('urlImovel').value;
+        if (qrUrl) {
+          QRCode.toDataURL(qrUrl, { width: 100 }, (err, url) => {
+            const qrImg = new Image();
+            qrImg.onload = () => {
+              ctx.fillStyle = "#fff";
+              ctx.fillRect(canvas.width - 180, 40, 120, 120);
+              ctx.drawImage(qrImg, canvas.width - 170, 50, 100, 100);
+            };
+            qrImg.src = url;
+          });
+        }
+
+        if (logo) {
+          ctx.drawImage(logo, canvas.width - 300, canvas.height - 300, 200, 100);
+        }
       }
 
-      if (logo) {
-        ctx.drawImage(logo, canvas.width - 300, canvas.height - 300, 200, 100);
+      function baixarImagem() {
+        const canvas = document.getElementById('canvas');
+        const link = document.createElement('a');
+        link.download = 'postagem_gerada.png';
+        link.href = canvas.toDataURL();
+        link.click();
       }
-    }
-
-    function baixarImagem() {
-      const canvas = document.getElementById('canvas');
-      const link = document.createElement('a');
-      link.download = 'postagem_gerada.png';
-      link.href = canvas.toDataURL();
-      link.click();
-    }
-  </script>
+    </script>
 </body>
 </html>
